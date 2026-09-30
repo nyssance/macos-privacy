@@ -1,0 +1,35 @@
+[package]
+name = "macos-privacy"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Query, request and observe macOS privacy (TCC) permissions: accessibility, screen recording, input monitoring, full disk access, camera and microphone"
+repository = "https://github.com/nyssance/macos-privacy"
+license = "MIT OR Apache-2.0"
+keywords = ["macos", "privacy", "permissions", "tcc", "accessibility"]
+categories = ["os::macos-apis", "api-bindings"]
+readme = "README.md"
+
+[features]
+default = ["async"]
+# `request` returns a future; the callback API stays available without it.
+async = ["dep:futures-channel"]
+# Lets a consumer's tests pin a permission state that their machine is not in.
+testing = []
+
+[dependencies]
+futures-channel = { version = "0.3", optional = true, default-features = false, features = ["std"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+block2 = "0.6"
+objc2 = "0.6"
+objc2-application-services = { version = "0.3", default-features = false, features = ["std", "HIServices", "AXUIElement"] }
+objc2-av-foundation = { version = "0.3", default-features = false, features = ["std", "block2", "AVCaptureDevice", "AVMediaFormat"] }
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "NSWorkspace"] }
+objc2-core-foundation = { version = "0.3", default-features = false, features = ["std", "CFDictionary", "CFNumber", "CFString"] }
+objc2-core-graphics = { version = "0.3", default-features = false, features = ["std", "CGWindow"] }
+objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSBundle", "NSString", "NSURL"] }
+objc2-io-kit = { version = "0.3", default-features = false, features = ["std", "hidsystem"] }
+
+[package.metadata.docs.rs]
+targets = ["aarch64-apple-darwin", "x86_64-apple-darwin"]

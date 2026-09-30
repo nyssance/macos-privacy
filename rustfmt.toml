@@ -1,0 +1,6 @@
+# The effective half of alwith-desktop's rustfmt.toml: its `unstable_features`,
+# `trailing_comma` and `trailing_semicolon` are nightly-only and do nothing on stable.
+max_width = 120
+fn_params_layout = "Compressed"
+newline_style = "Unix"
+use_small_heuristics = "Max"
